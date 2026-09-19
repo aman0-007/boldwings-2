@@ -1,0 +1,6 @@
+{
+  "name": "BoldWings",
+  "description": "BoldWings aviation training academy website - Where Dreams Take Flight",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

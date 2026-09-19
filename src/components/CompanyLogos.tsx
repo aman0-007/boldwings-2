@@ -1,19 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-const companies = [
-  { name: 'Emirates', logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Emirates_logo.svg' },
-  { name: 'Air India', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e3/Air_India_Logo.svg' },
-  { name: 'Vistara', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Vistara_Logo.svg' },
-  { name: 'IndiGo', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e5/IndiGo_Airlines_logo.svg' },
-  { name: 'SpiceJet', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/SpiceJet_Logo.svg' },
-  { name: 'Qatar Airways', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Qatar_Airways_Logo.svg' },
-  { name: 'Etihad Airways', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Etihad_Airways_logo_2014.svg' },
-  { name: 'Singapore Airlines', logo: 'https://upload.wikimedia.org/wikipedia/en/6/6b/Singapore_Airlines_Logo_2.svg' },
-];
+import { airlineLogos } from './AirlineLogos';
 
 // Duplicate the array for seamless infinite scroll
-const duplicatedCompanies = [...companies, ...companies];
+const duplicatedCompanies = [...airlineLogos, ...airlineLogos];
 
 const CompanyLogos = () => {
   return (
@@ -22,7 +12,8 @@ const CompanyLogos = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           className="text-center"
         >
           <h2 className="text-4xl font-bold mb-4">Our Students Work At</h2>
@@ -30,35 +21,23 @@ const CompanyLogos = () => {
         </motion.div>
       </div>
 
-      <div className="relative">
-        <div className="absolute left-0 top-0 w-20 h-full bg-gradient-to-r from-white to-transparent z-10" />
-        <div className="absolute right-0 top-0 w-20 h-full bg-gradient-to-l from-white to-transparent z-10" />
+      <div className="relative overflow-hidden w-full py-4">
+        {/* Subtle edge fade overlays */}
+        <div className="pointer-events-none absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-white to-transparent z-10" />
         
-        <motion.div
-          animate={{ x: [0, -50 + '%'] }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 30,
-              ease: "linear",
-            },
-          }}
-          className="flex items-center space-x-12 whitespace-nowrap"
-        >
+        {/* Hardware-accelerated CSS marquee */}
+        <div className="animate-marquee items-center space-x-12">
           {duplicatedCompanies.map((company, index) => (
             <div
               key={`${company.name}-${index}`}
-              className="flex items-center justify-center h-20 w-40"
+              className="flex items-center justify-center h-24 w-52 px-4 py-2 bg-gray-50/80 rounded-xl border border-gray-100/80 shadow-sm filter grayscale hover:grayscale-0 hover:bg-white hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+              title={company.name}
             >
-              <img
-                src={company.logo}
-                alt={company.name}
-                className="max-h-12 max-w-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
-              />
+              {company.component}
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

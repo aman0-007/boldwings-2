@@ -10,10 +10,17 @@ const Header = () => {
   const isHomePage = location.pathname === '/';
 
   useEffect(() => {
+    let lastScrolled = window.scrollY > 20;
+    setIsScrolled(lastScrolled);
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrolled = window.scrollY > 20;
+      if (scrolled !== lastScrolled) {
+        lastScrolled = scrolled;
+        setIsScrolled(scrolled);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
